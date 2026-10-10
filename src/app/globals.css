@@ -1,26 +1,105 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0505;
+  --foreground: #f5f0f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
+  --font-mono: var(--font-jetbrains);
+
+  /* Noir / case-room background scale */
+  --color-noir-950: #0a0505;
+  --color-noir-900: #0d0707;
+  --color-noir-850: #120808;
+  --color-noir-800: #150a0a;
+  --color-noir-700: #1c0f0f;
+
+  /* Blood-red accent scale */
+  --color-blood-950: #200000;
+  --color-blood-900: #3a0000;
+  --color-blood-800: #5c0000;
+  --color-blood-700: #8b0000;
+  --color-blood-600: #a30000;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.animate-dash-flow {
+  animation: dash-flow 1.4s linear infinite;
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.65;
+  }
+  90% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(var(--ember-drift, 0px), -110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes ember-flicker {
+  0%,
+  100% {
+    filter: brightness(0.9);
+  }
+  50% {
+    filter: brightness(2.1);
+  }
+}
+
+.ember-particle {
+  position: absolute;
+  bottom: -5%;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #ffb347 0%, #ff4d1c 40%, rgba(220, 38, 38, 0) 75%);
+  box-shadow: 0 0 14px 4px rgba(255, 69, 20, 0.75);
+  animation-name: ember-rise, ember-flicker;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  will-change: transform, opacity, filter;
+}
+
+/* Trang dữ liệu dày (bọc data-density="high") giảm nửa độ đậm của nền ember
+   để không cạnh tranh với việc đọc số liệu/bảng. */
+body:has([data-density="high"]) #ember-layer {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ember-layer {
+    display: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
