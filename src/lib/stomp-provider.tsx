@@ -13,6 +13,7 @@ import {
 import { Client, type StompSubscription } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { API_BASE_URL } from "./api-client";
+import { MOCK_MODE } from "./mock-data";
 import { useAuth } from "./auth-context";
 
 type Handler = (payload: unknown) => void;
@@ -71,6 +72,11 @@ export function StompProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handlers = handlersRef.current;
     const subscriptions = subscriptionsRef.current;
+
+    if (MOCK_MODE) {
+      setConnected(false);
+      return;
+    }
 
     const client = new Client({
       webSocketFactory: () => new SockJS(`${API_BASE_URL}/ws`),

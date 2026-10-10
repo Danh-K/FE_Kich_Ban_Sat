@@ -1,9 +1,25 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { api } from "@/lib/api-client";
 import type { Review } from "@/lib/types";
+import { MOCK_MODE, MOCK_REVIEWS } from "@/lib/mock-data";
 
-export async function Testimonials() {
-  const reviews = await api.get<Review[]>("/api/reviews/featured?limit=3");
+export function Testimonials() {
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    if (MOCK_MODE) {
+      setReviews(MOCK_REVIEWS);
+      return;
+    }
+
+    api
+      .get<Review[]>("/api/reviews/featured?limit=3")
+      .then(setReviews)
+      .catch(() => setReviews([]));
+  }, []);
 
   if (reviews.length === 0) return null;
 

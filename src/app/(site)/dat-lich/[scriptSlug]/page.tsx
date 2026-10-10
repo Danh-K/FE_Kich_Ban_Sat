@@ -4,10 +4,16 @@ import { api, ApiError } from "@/lib/api-client";
 import type { Script } from "@/lib/types";
 import { getSessionsWithCapacity } from "@/lib/sessions";
 import { BookingFlow } from "@/components/booking/BookingFlow";
+import { MOCK_SCRIPTS } from "@/lib/mock-data";
 
 interface PageProps {
   params: Promise<{ scriptSlug: string }>;
-  searchParams: Promise<{ session?: string }>;
+}
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return MOCK_SCRIPTS.map((script) => ({ scriptSlug: script.slug }));
 }
 
 async function getScript(slug: string): Promise<Script | null> {
@@ -27,9 +33,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function BookingPage({ params, searchParams }: PageProps) {
+export default async function BookingPage({ params }: PageProps) {
   const { scriptSlug } = await params;
-  const { session } = await searchParams;
 
   const script = await getScript(scriptSlug);
   if (!script) {
@@ -38,5 +43,5 @@ export default async function BookingPage({ params, searchParams }: PageProps) {
 
   const sessions = await getSessionsWithCapacity(script.id);
 
-  return <BookingFlow script={script} sessions={sessions} initialSessionId={session} />;
+  return <BookingFlow script={script} sessions={sessions} />;
 }

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 import { formatVnd, cn } from "@/lib/utils";
@@ -19,8 +18,7 @@ export function ScriptsSection({
   scripts: Script[];
   openScriptIds: string[];
 }) {
-  const searchParams = useSearchParams();
-  const [tab, setTab] = useState<Tab>(searchParams.get("tab") === "all" ? "all" : "open");
+  const [tab, setTab] = useState<Tab>("open");
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const openScriptIdSet = useMemo(() => new Set(openScriptIds), [openScriptIds]);

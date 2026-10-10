@@ -1,13 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { MapPin, Phone } from "lucide-react";
 import { api } from "@/lib/api-client";
 import type { StoreBranch } from "@/lib/types";
+import { MOCK_MODE, MOCK_STORES } from "@/lib/mock-data";
 
 function formatAddress(store: StoreBranch) {
   return [store.street, store.district, store.province].filter(Boolean).join(", ");
 }
 
-export default async function StorePage() {
-  const stores = await api.get<StoreBranch[]>("/api/stores");
+export default function StorePage() {
+  const [stores, setStores] = useState<StoreBranch[]>([]);
+
+  useEffect(() => {
+    if (MOCK_MODE) {
+      setStores(MOCK_STORES);
+      return;
+    }
+
+    api.get<StoreBranch[]>("/api/stores").then(setStores).catch(() => setStores([]));
+  }, []);
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-20 pt-24 md:pt-28">

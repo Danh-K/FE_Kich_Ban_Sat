@@ -16,6 +16,16 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Demo without backend
+
+To run the frontend with the seed/demo data in `src/lib/mock-data.ts`, set this in `.env.local`:
+
+```env
+NEXT_PUBLIC_MOCK_DATA=true
+```
+
+Restart the development server after changing the environment file. GitHub Pages enables this mode automatically; it does not require the Spring Boot backend.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

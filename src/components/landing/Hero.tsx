@@ -5,16 +5,6 @@ import { CaseFileCard } from "./CaseFileCard";
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-20">
-      {/* Background video */}
-      <video
-        className="absolute inset-0 h-full w-full object-cover opacity-40"
-        src="/video/case-room-loop.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
-
       {/* Vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0a0505_85%)]" />
       {/* Bottom blood gradient */}

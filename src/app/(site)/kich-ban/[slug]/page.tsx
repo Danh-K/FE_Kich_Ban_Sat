@@ -11,9 +11,16 @@ import { ScriptGallery } from "@/components/script/ScriptGallery";
 import { SessionsSection } from "@/components/script/SessionsSection";
 import { ScriptCTA } from "@/components/script/ScriptCTA";
 import { PageFadeIn } from "@/components/script/PageFadeIn";
+import { MOCK_SCRIPTS } from "@/lib/mock-data";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return MOCK_SCRIPTS.map((script) => ({ slug: script.slug }));
 }
 
 /** cache(): generateMetadata va page component deu goi getScript cho cung 1 request - chi fetch 1 lan. */
@@ -28,6 +35,9 @@ const getScript = cache(async (slug: string): Promise<Script | null> => {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "github-pages-preview") {
+    return { title: "Kịch bản — Murder Night" };
+  }
   const script = await getScript(slug);
   return {
     title: script ? `${script.title} — Murder Night` : "Kịch bản — Murder Night",
