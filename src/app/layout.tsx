@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Playfair_Display, JetBrains_Mono } from "next/font/google";
 import { EmberBackground } from "@/components/shared/EmberBackground";
 import { AuthProvider } from "@/lib/auth-context";
 import { StompProvider } from "@/lib/stomp-provider";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -37,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${playfair.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-noir-950 text-foreground">
         <EmberBackground />
