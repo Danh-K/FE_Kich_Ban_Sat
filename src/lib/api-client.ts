@@ -1,4 +1,11 @@
-import type { ApiErrorCode, AppNotification, Session, SessionSlot, Voucher } from "./types";
+import type {
+  ApiErrorCode,
+  AppNotification,
+  LeaderboardEntry,
+  Session,
+  SessionSlot,
+  Voucher,
+} from "./types";
 import { MOCK_MODE, MOCK_OPEN_SCRIPT_IDS, MOCK_REVIEWS, MOCK_SCRIPTS, MOCK_STORES } from "./mock-data";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
@@ -73,6 +80,15 @@ const mockNotifications: AppNotification[] = [
   { id: "mock-notification-1", type: "SESSION_READY", priority: "NORMAL", title: "Lịch chơi đã sẵn sàng", body: "Một buổi chơi đang đủ người tham gia.", payload: {}, link: "/dat-lich/2-12", read: false, createdAt: "2026-10-01T10:00:00Z" },
 ];
 
+const mockLeaderboard: LeaderboardEntry[] = [
+  { rank: 1, userId: "mock-player-1", name: "Minh Anh", casesSolved: 18, hardestScriptTitle: "Lý Luận Hư Cấu", score: 9200, isCurrentUser: false },
+  { rank: 2, userId: "mock-player-2", name: "Hoàng Nam", casesSolved: 15, hardestScriptTitle: "Niên Luân", score: 8100, isCurrentUser: false },
+  { rank: 3, userId: "mock-player-3", name: "Khách Demo", casesSolved: 12, hardestScriptTitle: "Vụ Nha Quán", score: 7300, isCurrentUser: true },
+  { rank: 4, userId: "mock-player-4", name: "Lan Chi", casesSolved: 10, hardestScriptTitle: "Dư Hương", score: 6400, isCurrentUser: false },
+  { rank: 5, userId: "mock-player-5", name: "Tuấn Khang", casesSolved: 8, hardestScriptTitle: "Cổ Thụ Ngân Nga", score: 5200, isCurrentUser: false },
+  { rank: 6, userId: "mock-player-6", name: "Bảo Ngọc", casesSolved: 6, hardestScriptTitle: "Điểm Danh", score: 4100, isCurrentUser: false },
+];
+
 function mockResponse<T>(value: T): Promise<T> {
   return Promise.resolve(value);
 }
@@ -104,6 +120,7 @@ function mockRequest<T>(path: string, method: RequestOptions["method"], body?: u
   if (method === "GET" && parts[1] === "sessions" && parts[3] === "slots") return mockResponse(mockSessionSlots(parts[2]) as T);
   if (method === "GET" && pathname === "/api/sessions") return mockResponse(mockSessions.filter((session) => MOCK_OPEN_SCRIPT_IDS.includes(session.script.id)) as T);
   if (method === "GET" && pathname === "/api/stores") return mockResponse(MOCK_STORES as T);
+  if (method === "GET" && pathname === "/api/leaderboard") return mockResponse(mockLeaderboard as T);
   if (method === "GET" && pathname.startsWith("/api/reviews/featured")) return mockResponse(MOCK_REVIEWS as T);
   if (method === "GET" && pathname === "/api/notifications") return mockResponse({ content: mockNotifications, totalElements: mockNotifications.length, totalPages: 1, number: 0, size: 20 } as T);
   if (method === "GET" && pathname === "/api/notifications/unread-count") return mockResponse({ count: mockNotifications.filter((item) => !item.read).length, highPriorityCount: 0 } as T);
