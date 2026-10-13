@@ -3,6 +3,8 @@ import type { Category, Review, Script, StoreBranch } from "./types";
 export const MOCK_MODE =
   process.env.NEXT_PUBLIC_MOCK_DATA === "true" || Boolean(process.env.NEXT_PUBLIC_BASE_PATH);
 
+const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const categoryNames = [
   "Phá án",
   "Kinh dị",
@@ -74,7 +76,7 @@ function createScript(
     npcPrice: basePrice + 30000,
     description,
     categories: genreCategories,
-    coverImageUrl: `/images/scripts/${image}.jpg`,
+    coverImageUrl: `${PUBLIC_BASE_PATH}/images/scripts/${image}.jpg`,
   };
 }
 
